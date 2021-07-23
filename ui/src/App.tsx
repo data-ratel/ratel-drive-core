@@ -8,7 +8,7 @@ import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 
 import {
-  HashRouter as Router,
+  BrowserRouter as Router,
   Route,
   NavLink
 } from 'react-router-dom';
@@ -18,9 +18,9 @@ import { Navbar, Nav } from 'react-bootstrap'
 
 function App() {
   const routes = [
-    { path: '/', name: 'Home', Component: Home },
-    { path: '/login', name: 'Login', Component: Login },
-    { path: '/404', name: 'NotFound', Component: NotFound}
+    { path: '/app', name: 'Home', Component: Home, is_navlink: true },
+    { path: '/app/login', name: 'Login', Component: Login, is_navlink: true},
+    { path: '/app/404', name: 'NotFound', Component: NotFound, is_navlink: false}
   ];
 
   return (
@@ -29,7 +29,7 @@ function App() {
         <>
           <Navbar bg="light">
             <Nav className="mx-auto">
-              {routes.filter(route => route.path !== '/404').map(route => (
+              {routes.filter(route => route.is_navlink).map(route => (
                 <Nav.Link
                   key={route.path}
                   as={NavLink}

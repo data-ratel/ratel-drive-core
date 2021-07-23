@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 
 	_ "github.com/RatelData/ratel-drive-core/docs"
 	"github.com/gin-contrib/cors"
-	"github.com/gin-contrib/static"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
@@ -46,7 +46,10 @@ func main() {
 	if appConfig.IsDebugMode() {
 		r.Use(cors.Default())
 	} else {
-		r.Use(static.Serve("/app", static.LocalFile("./ui", false)))
+		r.Static("/app", "./ui")
+		r.GET("/", func(c *gin.Context) {
+			c.Redirect(http.StatusPermanentRedirect, "/app")
+		})
 	}
 
 	r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
